@@ -1,5 +1,5 @@
 import 'package:darty_json_safe/darty_json_safe.dart';
-import 'package:starter_template/commons/appwrite_exception.dart';
+import 'package:upload_app_log/commons/appwrite_exception.dart';
 
 extension AppwriteExtends on dynamic {
   JSON get bodyJson {

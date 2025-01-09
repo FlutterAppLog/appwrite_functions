@@ -1,43 +1,19 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:dart_appwrite/dart_appwrite.dart';
 import 'package:darty_json_safe/darty_json_safe.dart';
-import 'package:starter_template/commons/appwrite_data.dart';
-import 'package:starter_template/commons/appwrite_exception.dart';
-import 'package:starter_template/commons/appwrite_run.dart';
 import 'package:crypto/crypto.dart';
-
-Future<dynamic> appwriteMain<T extends AppwriteRun>(T run) async {
-  try {
-    final data = await run.run(JSON(run.context.req.bodyJson));
-    return run.response(AppwriteData.success(data));
-  } on AppwriteFunctionExpection catch (e) {
-    return run.response(AppwriteData.error(e.message, e.code));
-  } catch (e) {
-    return run.response(AppwriteData.error(e.toString(), -1));
-  }
-}
-
-Client appwriteClient(final context) {
-  final client = Client()
-      .setEndpoint(Platform.environment['APPWRITE_FUNCTION_API_ENDPOINT'] ?? '')
-      .setProject(Platform.environment['APPWRITE_FUNCTION_PROJECT_ID'] ?? '')
-      .setKey(context.req.headers['x-appwrite-key'] ?? '');
-  return client;
-}
+import 'package:upload_app_log/commons/appwrite_exception.dart';
 
 /// 验证请求
 Future<void> verifyRequest(final context) async {
   final headerJson = JSON(context.req.headers);
-  int? timeInterval = headerJson['x-appwrite-timestamp'].int;
-  int? timeDuration = headerJson['x-appwrite-timestamp-duration'].int;
-  String? requestId = headerJson['x-appwrite-request-id'].string;
+  int? timeInterval = headerJson['timestamp'].int;
+  int? timeDuration = headerJson['timestamp-duration'].int;
+  String? requestId = headerJson['request-id'].string;
   if (timeInterval == null || timeDuration == null || requestId == null) {
     throw AppwriteFunctionExpection(
         code: -1,
-        message:
-            'miss header x-appwrite-timestamp or x-appwrite-timestamp-duration or x-appwrite-request-id');
+        message: 'miss header timestamp or timestamp-duration or request-id');
   }
   int isAllowRequestTime = DateTime.now().millisecondsSinceEpoch - timeInterval;
   context.log('isAllowRequestTime: $isAllowRequestTime');
@@ -50,4 +26,23 @@ Future<void> verifyRequest(final context) async {
   if (md5String != requestId) {
     throw AppwriteFunctionExpection(code: -1, message: 'invalid request');
   }
+}
+
+/// 获取环境变量
+String getEnvironment(String key) {
+  final value = Platform.environment[key];
+  if (value == null) throw AppwriteFunctionExpection.keyNotFound(key);
+  return value;
+}
+
+/// 验证ID
+bool verifyId(String id) {
+  final contents = id.split('-');
+  if (contents.length != 5) return false;
+  if (contents[0].length != 8) return false;
+  if (contents[1].length != 4) return false;
+  if (contents[2].length != 4) return false;
+  if (contents[3].length != 4) return false;
+  if (contents[4].length != 12) return false;
+  return true;
 }

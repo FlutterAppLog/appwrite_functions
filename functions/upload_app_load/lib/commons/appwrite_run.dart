@@ -1,15 +1,8 @@
 import 'package:darty_json_safe/darty_json_safe.dart';
-import 'package:starter_template/commons/appwrite_data.dart';
+import 'package:upload_app_log/commons/appwrite_main.dart';
 
 abstract class AppwriteRun {
-  final dynamic context;
-  const AppwriteRun({required this.context});
+  Future<Map<String, dynamic>> run(JSON req, AppwriteMain main);
 
-  JSON get req => context.req;
-
-  Future<Map<String, dynamic>> run(JSON req);
-
-  dynamic response(AppwriteData data) {
-    return context.res.json(data.toMap());
-  }
+  String get path;
 }
