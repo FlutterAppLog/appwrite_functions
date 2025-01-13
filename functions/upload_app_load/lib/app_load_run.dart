@@ -36,5 +36,5 @@ class AppLoadRun extends AppwriteRun {
   }
 
   @override
-  String get path => 'appLoad';
+  String get path => '/appLoad';
 }

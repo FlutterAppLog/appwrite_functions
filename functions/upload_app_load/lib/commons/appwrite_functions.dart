@@ -20,8 +20,7 @@ Future<void> verifyRequest(final context) async {
   if (isAllowRequestTime > timeDuration) {
     throw AppwriteFunctionExpection(code: -1, message: 'invalid request');
   }
-  final key = "${timeInterval}_$timeDuration";
-  final md5String = md5.convert(utf8.encode(key)).toString();
+  final md5String = getMd5(timeInterval, timeDuration);
   context.log("md5String: $md5String");
   if (md5String != requestId) {
     throw AppwriteFunctionExpection(code: -1, message: 'invalid request');
@@ -45,4 +44,9 @@ bool verifyId(String id) {
   if (contents[3].length != 4) return false;
   if (contents[4].length != 12) return false;
   return true;
+}
+
+String getMd5(int timeInterval, int duration) {
+  final key = "${timeInterval}_$duration";
+  return md5.convert(utf8.encode(key)).toString();
 }

@@ -49,13 +49,16 @@ class AppwriteMain {
       if (run == null) {
         throw AppwriteFunctionExpection(
           code: -1,
-          message: 'not support method ${context.req.method}',
+          message: 'not support method $requestPath',
         );
       }
       final data = await run.run(JSON(context.req.bodyJson), this);
       return response(AppwriteData.success(data));
     } on AppwriteFunctionExpection catch (e) {
       return response(AppwriteData.error(e.message, e.code));
+    } on AppwriteException catch (e) {
+      return response(AppwriteData.error(
+          e.message ?? 'Appwrite Unknown Error', e.code ?? -1));
     } catch (e) {
       return response(AppwriteData.error(e.toString(), -1));
     }

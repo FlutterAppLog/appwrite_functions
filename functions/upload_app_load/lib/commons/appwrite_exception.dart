@@ -5,4 +5,7 @@ class AppwriteFunctionExpection implements Exception {
 
   factory AppwriteFunctionExpection.keyNotFound(String key) =>
       AppwriteFunctionExpection(code: 10000, message: 'key not found: $key');
+
+  factory AppwriteFunctionExpection.idAleadyExists(String id) =>
+      AppwriteFunctionExpection(code: 10001, message: 'id already exists: $id');
 }
