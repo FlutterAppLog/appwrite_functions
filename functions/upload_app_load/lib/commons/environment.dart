@@ -5,13 +5,12 @@ class Environment {
   late String projectId;
   late String databaseId;
   late String appLoadTableId;
-  // late String sentryIdsTableId;
-  // late String sentryIdsKey;
-  // late String sentryIdsValue;
+  late String appUserTableId;
   setup() {
     endPoint = getEnvironment('APPWRITE_FUNCTION_API_ENDPOINT');
     projectId = getEnvironment('APPWRITE_FUNCTION_PROJECT_ID');
     databaseId = getEnvironment('APPWRITE_FUNCTION_DATABASE_ID');
     appLoadTableId = getEnvironment('APPWRITE_FUNCTION_APP_LOAD_TABLE_ID');
+    appUserTableId = getEnvironment('APPWRITE_FUNCTION_APP_USER_TABLE_ID');
   }
 }
