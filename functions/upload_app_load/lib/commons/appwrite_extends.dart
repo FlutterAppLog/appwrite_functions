@@ -1,5 +1,6 @@
 import 'package:darty_json_safe/darty_json_safe.dart';
 import 'package:upload_app_log/commons/appwrite_exception.dart';
+import 'package:upload_app_log/commons/appwrite_functions.dart';
 
 extension AppwriteExtends on dynamic {
   JSON get bodyJson {
@@ -28,5 +29,13 @@ extension AppwriteJSON on JSON {
     final value = this[key].bool;
     if (value == null) throw AppwriteFunctionExpection.keyNotFound(key);
     return value;
+  }
+
+  String getId(String key) {
+    final id = getString(key);
+    if (!verifyId(id)) {
+      throw AppwriteFunctionExpection(code: -1, message: 'invalid id');
+    }
+    return id;
   }
 }
