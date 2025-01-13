@@ -7,6 +7,7 @@ class Environment {
   late String appLoadTableId;
   late String appUserTableId;
   late String appSentryTableId;
+  late String appLogTableId;
   setup() {
     endPoint = getEnvironment('APPWRITE_FUNCTION_API_ENDPOINT');
     projectId = getEnvironment('APPWRITE_FUNCTION_PROJECT_ID');
@@ -14,5 +15,6 @@ class Environment {
     appLoadTableId = getEnvironment('APPWRITE_FUNCTION_APP_LOAD_TABLE_ID');
     appUserTableId = getEnvironment('APPWRITE_FUNCTION_APP_USER_TABLE_ID');
     appSentryTableId = getEnvironment('APPWRITE_FUNCTION_APP_SENTRY_TABLE_ID');
+    appLogTableId = getEnvironment('APPWRITE_FUNCTION_APP_LOG_TABLE_ID');
   }
 }
