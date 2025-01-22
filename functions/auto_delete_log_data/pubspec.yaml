@@ -1,0 +1,12 @@
+name: auto_delete_log_data
+version: 1.0.0
+
+environment:
+  sdk: ^2.17.0
+
+dependencies:
+  dart_appwrite: ^12.1.0
+  darty_json_safe: ^1.0.3
+
+dev_dependencies:
+  lints: ^2.0.0
